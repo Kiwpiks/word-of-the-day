@@ -1,22 +1,40 @@
-[
-  "the",
-  "be",
-  "to",
-  "of",
-  "and",
-  "a",
-  "in",
-  "that",
-  "have",
-  "I",
-  "it",
-  "for",
-  "not",
-  "on",
-  "with",
-  "he",
-  "as",
-  "you",
-  "do",
-  "at"
-]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Word of the Day</title>
+<style>
+  body { font-family: Arial, sans-serif; text-align: center; margin-top: 120px; }
+  h1 { font-size: 36px; }
+  #word { font-size: 64px; margin-top: 30px; color: #333; }
+  #date { margin-top: 20px; color: #666; }
+</style>
+</head>
+<body>
+
+<h1>Word of the Day</h1>
+<div id="word">Loading...</div>
+<div id="date"></div>
+
+<script>
+async function loadWord() {
+  const response = await fetch("words.json");
+  const words = await response.json();
+
+  const startDate = new Date("2026-01-01"); 
+  const today = new Date();
+
+  const diffTime = today - startDate;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  const index = ((diffDays % words.length) + words.length) % words.length;
+
+  document.getElementById("word").innerText = words[index];
+  document.getElementById("date").innerText = today.toDateString();
+}
+
+loadWord();
+</script>
+
+</body>
+</html>
